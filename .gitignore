@@ -1,0 +1,6 @@
+# Busca estas carpetas en cualquier lugar del repo
+**/bin/
+**/obj/
+**/Debug/
+**/Release/
+**/.vs/
