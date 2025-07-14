@@ -1,22 +1,318 @@
-html {
-  font-size: 14px;
+﻿/* ===== VARIABLES CSS INSPIRADAS EN LA NATURALEZA ===== */
+:root {
+    /* Colores principales - Inspirados en bosques y naturaleza */
+    --primary-forest: #2d5a47; /* Verde bosque profundo */
+    --secondary-sage: #7a8471; /* Verde salvia */
+    --accent-moss: #9caf88; /* Verde musgo */
+    --light-mint: #e8f5e8; /* Menta claro */
+    --warm-stone: #f5f3f0; /* Piedra cálida */
+    /* Colores de apoyo */
+    --earth-brown: #8b7355; /* Marrón tierra */
+    --sky-blue: #a8c8d8; /* Azul cielo suave */
+    --sunset-orange: #d4a574; /* Naranja atardecer */
+    --text-charcoal: #3a3a3a; /* Carbón para texto */
+    --text-muted: #6b7280; /* Gris suave */
+    /* Sombras naturales */
+    --shadow-soft: 0 2px 8px rgba(45, 90, 71, 0.1);
+    --shadow-medium: 0 4px 16px rgba(45, 90, 71, 0.15);
+    --shadow-strong: 0 8px 32px rgba(45, 90, 71, 0.2);
+    /* Transiciones suaves */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-fast: all 0.2s ease;
+    /* Tipografía */
+    --font-primary: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
+/* ===== ESTILOS GLOBALES ===== */
+* {
+    box-sizing: border-box;
 }
 
 body {
-  margin-bottom: 60px;
+    font-family: var(--font-primary);
+    background: linear-gradient(135deg, var(--warm-stone) 0%, var(--light-mint) 100%);
+    color: var(--text-charcoal);
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+/* ===== NAVEGACIÓN ===== */
+.navbar {
+    background: linear-gradient(135deg, var(--primary-forest) 0%, var(--secondary-sage) 100%) !important;
+    box-shadow: var(--shadow-medium);
+    border-bottom: 2px solid var(--accent-moss);
+    padding: 1rem 0;
+}
+
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: white !important;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    transition: var(--transition-fast);
+}
+
+    .navbar-brand:hover {
+        transform: translateY(-1px);
+        text-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+    }
+
+.navbar-text {
+    color: var(--light-mint) !important;
+    font-weight: 500;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.nav-link {
+    color: white !important;
+    font-weight: 500;
+    padding: 0.5rem 1rem !important;
+    border-radius: 25px;
+    transition: var(--transition-smooth);
+    position: relative;
+    overflow: hidden;
+}
+
+    .nav-link::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: var(--transition-smooth);
+    }
+
+    .nav-link:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+        .nav-link:hover::before {
+            left: 100%;
+        }
+
+/* ===== CONTENEDOR PRINCIPAL ===== */
+.container {
+    max-width: 1200px;
+}
+
+.mt-4 {
+    margin-top: 2rem !important;
+}
+
+/* ===== TÍTULOS ===== */
+h2 {
+    color: var(--primary-forest);
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    position: relative;
+    display: inline-block;
+}
+
+    h2::after {
+        content: '';
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 60px;
+        height: 3px;
+        background: linear-gradient(90deg, var(--accent-moss), var(--secondary-sage));
+        border-radius: 2px;
+    }
+
+/* ===== TARJETAS ===== */
+.card {
+    background: white;
+    border: none;
+    border-radius: 16px;
+    box-shadow: var(--shadow-soft);
+    transition: var(--transition-smooth);
+    overflow: hidden;
+    position: relative;
+}
+
+    .card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, var(--primary-forest), var(--accent-moss), var(--secondary-sage));
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-strong);
+    }
+
+.card-body {
+    padding: 2rem;
+    background: linear-gradient(135deg, white 0%, var(--light-mint) 100%);
+}
+
+.card-title {
+    color: var(--primary-forest);
+    font-weight: 600;
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+}
+
+    .card-title::before {
+        content: '🌿';
+        margin-right: 0.5rem;
+        font-size: 1.2rem;
+    }
+
+.card-text {
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+    line-height: 1.7;
+}
+
+/* ===== BOTONES ===== */
+.btn {
+    border-radius: 25px;
+    padding: 0.75rem 1.5rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: var(--transition-smooth);
+    position: relative;
+    overflow: hidden;
+    border: none;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary-forest) 0%, var(--secondary-sage) 100%);
+    color: white;
+    box-shadow: var(--shadow-soft);
+}
+
+    .btn-primary::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: var(--transition-smooth);
+    }
+
+    .btn-primary:hover {
+        background: linear-gradient(135deg, var(--secondary-sage) 0%, var(--accent-moss) 100%);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-medium);
+        color: white;
+    }
+
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+
+    .btn-primary:active {
+        transform: translateY(0);
+    }
+
+/* ===== EFECTOS ADICIONALES ===== */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.card {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+    .navbar-brand {
+        font-size: 1.25rem;
+    }
+
+    .card-body {
+        padding: 1.5rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    .btn {
+        padding: 0.625rem 1.25rem;
+        font-size: 0.875rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .navbar-text {
+        display: none;
+    }
+
+    .card-body {
+        padding: 1rem;
+    }
+
+    h2::after {
+        width: 40px;
+        height: 2px;
+    }
+}
+
+/* ===== UTILIDADES ADICIONALES ===== */
+.text-nature-primary {
+    color: var(--primary-forest) !important;
+}
+
+.text-nature-secondary {
+    color: var(--secondary-sage) !important;
+}
+
+.bg-nature-light {
+    background-color: var(--light-mint) !important;
+}
+
+.border-nature {
+    border-color: var(--accent-moss) !important;
+}
+
+/* ===== ELEMENTOS DECORATIVOS ===== */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 20% 50%, rgba(156, 175, 136, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(45, 90, 71, 0.1) 0%, transparent 50%), radial-gradient(circle at 40% 80%, rgba(122, 132, 113, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* ===== MEJORAS DE ACCESIBILIDAD ===== */
+.btn:focus,
+.nav-link:focus {
+    outline: 2px solid var(--accent-moss);
+    outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
 }
