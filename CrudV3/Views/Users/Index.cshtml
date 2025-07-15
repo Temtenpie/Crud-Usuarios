@@ -1,17 +1,60 @@
-﻿@model List<CrudV3.Models.UserModel>
+﻿@* 
+   DIRECTIVA DEL MODELO
+   - @model List<CrudV3.Models.UserModel>: Define que esta vista recibe una lista de objetos UserModel
+   - Permite acceso fuertemente tipado a los datos de usuarios
+   - Model es una List<UserModel> que se puede iterar con foreach
+   - Proporciona IntelliSense para las propiedades de UserModel
+*@
+@model List<CrudV3.Models.UserModel>
 
+@* 
+   DECLARACIÓN HTML5
+   - DOCTYPE html: Especifica que es un documento HTML5
+   - Activa el modo estándar del navegador
+*@
 <!DOCTYPE html>
 <html lang="es">
+ @* Idioma español para accesibilidad y SEO *@
 <head>
+    @* 
+       METADATOS DEL DOCUMENTO
+       - charset: UTF-8 para soporte de caracteres especiales
+       - viewport: Configuración responsive para dispositivos móviles
+       - title: Título específico para la página de usuarios
+    *@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Usuarios - CrudV3</title>
+
+    @* 
+       BOOTSTRAP CSS
+       - Framework CSS desde CDN para diseño responsive
+       - Versión 5.3.0 con componentes modernos
+    *@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+    @* 
+       BARRA DE NAVEGACIÓN
+       - navbar-expand-lg: Colapsa en pantallas pequeñas
+       - navbar-dark bg-primary: Tema oscuro con fondo azul
+       - Navegación global consistente en toda la aplicación
+    *@
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container">
+            @* Contenedor responsive para centrar contenido *@
+            @* 
+               MARCA DE LA APLICACIÓN
+               - Enlace al dashboard como página principal
+               - @Url.Action genera URL dinámica para la acción Dashboard
+            *@
             <a class="navbar-brand" href="@Url.Action("Dashboard", "Home")">CrudV3</a>
+
+            @* 
+               NAVEGACIÓN DERECHA
+               - ms-auto: Empuja elementos a la derecha
+               - Enlaces de navegación principales
+            *@
             <div class="navbar-nav ms-auto">
                 <a class="nav-link" href="@Url.Action("Dashboard", "Home")">Dashboard</a>
                 <a class="nav-link" href="@Url.Action("Logout", "Home")">Cerrar Sesión</a>
@@ -19,20 +62,54 @@
         </div>
     </nav>
 
+    @* 
+       CONTENEDOR PRINCIPAL
+       - container: Contenedor responsive de Bootstrap
+       - mt-4: Margen superior para separar de la navbar
+    *@
     <div class="container mt-4">
         <div class="row">
+            @* Fila del sistema de grid *@
             <div class="col-12">
+                @* Columna que ocupa todo el ancho *@
+                @* 
+                   HEADER CON TÍTULO Y BOTÓN
+                   - d-flex: Convierte en contenedor flexbox
+                   - justify-content-between: Distribuye elementos en extremos
+                   - align-items-center: Centra verticalmente
+                   - mb-3: Margen inferior para separación
+                *@
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h2>Gestión de Usuarios</h2>
+                    <h2>Gestión de Usuarios</h2> @* Título principal de la página *@
+
+                    @* 
+                       BOTÓN AGREGAR USUARIO
+                       - btn btn-success: Botón verde de Bootstrap
+                       - data-bs-toggle="modal": Atributo de Bootstrap para activar modal
+                       - data-bs-target="#userModal": Especifica qué modal abrir
+                       - onclick="openCreateModal()": Función JavaScript para configurar modal
+                    *@
                     <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#userModal" onclick="openCreateModal()">
                         Agregar Usuario
                     </button>
                 </div>
 
+                @* 
+                   TABLA RESPONSIVE
+                   - table-responsive: Permite scroll horizontal en pantallas pequeñas
+                   - Evita que la tabla se rompa en dispositivos móviles
+                *@
                 <div class="table-responsive">
+                    @* 
+                       TABLA DE USUARIOS
+                       - table: Clase base de Bootstrap para tablas
+                       - table-striped: Alterna colores en las filas para mejor legibilidad
+                    *@
                     <table class="table table-striped">
                         <thead>
+                            @* Encabezado de la tabla *@
                             <tr>
+                                @* Columnas de la tabla - definen la estructura de datos *@
                                 <th>ID</th>
                                 <th>Usuario</th>
                                 <th>Email</th>
@@ -42,22 +119,69 @@
                             </tr>
                         </thead>
                         <tbody id="usersTableBody">
+                            @* ID para manipulación con JavaScript *@
+                            @* 
+                               ITERACIÓN SOBRE LOS USUARIOS
+                               - foreach: Itera sobre cada usuario en la lista Model
+                               - var user: Variable temporal para cada usuario
+                               - Genera una fila por cada usuario
+                            *@
                             @foreach (var user in Model)
                             {
                                 <tr>
+                                    @* 
+                                       COLUMNA ID
+                                       - @user.Id: Accede a la propiedad Id del usuario actual
+                                       - Razor renderiza el valor directamente
+                                    *@
                                     <td>@user.Id</td>
+
+                                    @* COLUMNA USERNAME - Nombre de usuario *@
                                     <td>@user.Username</td>
+
+                                    @* COLUMNA EMAIL - Dirección de correo *@
                                     <td>@user.Email</td>
+
+                                    @* 
+                                       COLUMNA ESTADO ACTIVO
+                                       - badge: Componente Bootstrap para etiquetas
+                                       - Expresión condicional: user.IsActive ? "success" : "danger"
+                                       - bg-success (verde) si está activo, bg-danger (rojo) si inactivo
+                                    *@
                                     <td>
                                         <span class="badge bg-@(user.IsActive ? "success" : "danger")">
                                             @(user.IsActive ? "Activo" : "Inactivo")
                                         </span>
                                     </td>
+
+                                    @* 
+                                       COLUMNA FECHA DE CREACIÓN
+                                       - .ToString("dd/MM/yyyy"): Formatea la fecha al formato español
+                                       - Convierte DateTime a string con formato específico
+                                    *@
                                     <td>@user.CreatedAt.ToString("dd/MM/yyyy")</td>
+
+                                    @* 
+                                       COLUMNA ACCIONES
+                                       - Botones para editar y eliminar cada usuario
+                                       - Pasamos datos del usuario a las funciones JavaScript
+                                    *@
                                     <td>
+                                        @* 
+                                           BOTÓN EDITAR
+                                           - btn btn-sm btn-primary: Botón pequeño azul
+                                           - onclick: Llama función JavaScript con parámetros del usuario
+                                           - @user.IsActive.ToString().ToLower(): Convierte bool a string en minúsculas
+                                        *@
                                         <button class="btn btn-sm btn-primary" onclick="openEditModal(@user.Id, '@user.Username', '@user.Email', @user.IsActive.ToString().ToLower())">
                                             Editar
                                         </button>
+
+                                        @* 
+                                           BOTÓN ELIMINAR
+                                           - btn btn-sm btn-danger: Botón pequeño rojo
+                                           - onclick: Llama función JavaScript para eliminar
+                                        *@
                                         <button class="btn btn-sm btn-danger" onclick="deleteUser(@user.Id)">
                                             Eliminar
                                         </button>
@@ -71,34 +195,80 @@
         </div>
     </div>
 
-    <!-- Modal para Crear/Editar Usuario -->
+    @* 
+       MODAL PARA CREAR/EDITAR USUARIO
+       - modal fade: Componente Bootstrap con animación de aparición
+       - tabindex="-1": Mejora la accesibilidad del modal
+       - Se reutiliza para crear y editar usuarios
+    *@
     <div class="modal fade" id="userModal" tabindex="-1">
         <div class="modal-dialog">
+            @* Contenedor del modal *@
             <div class="modal-content">
+                @* Contenido principal del modal *@
+                @* 
+                   HEADER DEL MODAL
+                   - Título dinámico que cambia según la acción (crear/editar)
+                   - Botón de cierre estándar
+                *@
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalTitle">Agregar Usuario</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
+
+                @* 
+                   CUERPO DEL MODAL
+                   - Contiene el formulario para capturar datos del usuario
+                *@
                 <div class="modal-body">
                     <form id="userForm">
+                        @* Formulario con ID para manipulación JavaScript *@
+                        @* 
+                           CAMPO OCULTO PARA ID
+                           - Almacena el ID del usuario en modo edición
+                           - Valor por defecto 0 para nuevos usuarios
+                        *@
                         <input type="hidden" id="userId" value="0">
 
+                        @* 
+                           CAMPO NOMBRE DE USUARIO
+                           - mb-3: Margen inferior para separación
+                           - form-label: Etiqueta estilizada de Bootstrap
+                           - form-control: Campo de entrada estilizado
+                           - required: Validación HTML5 obligatoria
+                        *@
                         <div class="mb-3">
                             <label for="username" class="form-label">Usuario</label>
                             <input type="text" class="form-control" id="username" required>
                         </div>
 
+                        @* 
+                           CAMPO EMAIL
+                           - type="email": Validación HTML5 para formato de email
+                           - El navegador valida automáticamente el formato
+                        *@
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
                             <input type="email" class="form-control" id="email" required>
                         </div>
 
+                        @* 
+                           CAMPO CONTRASEÑA
+                           - type="password": Oculta el texto ingresado
+                           - form-text: Texto de ayuda de Bootstrap
+                           - required se controla dinámicamente con JavaScript
+                        *@
                         <div class="mb-3">
                             <label for="password" class="form-label">Contraseña</label>
                             <input type="password" class="form-control" id="password">
                             <div class="form-text">Deja vacío para mantener la contraseña actual (solo edición)</div>
                         </div>
 
+                        @* 
+                           CAMPO CHECKBOX PARA ESTADO ACTIVO
+                           - form-check: Contenedor de Bootstrap para checkboxes
+                           - checked: Marcado por defecto para nuevos usuarios
+                        *@
                         <div class="mb-3">
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="isActive" checked>
@@ -109,6 +279,12 @@
                         </div>
                     </form>
                 </div>
+
+                @* 
+                   FOOTER DEL MODAL
+                   - Botones de acción del modal
+                   - Cancelar y Guardar
+                *@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                     <button type="button" class="btn btn-primary" onclick="saveUser()">Guardar</button>
@@ -117,44 +293,73 @@
         </div>
     </div>
 
+    @* BOOTSTRAP JAVASCRIPT - Necesario para funcionalidad de componentes *@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
     <script>
+        @* 
+           VARIABLE GLOBAL PARA MODO DE EDICIÓN
+           - Controla si el modal está en modo crear o editar
+           - Afecta el comportamiento del formulario y las validaciones
+        *@
         let isEditMode = false;
 
+        @* 
+           FUNCIÓN PARA ABRIR MODAL EN MODO CREAR
+           - Resetea el formulario y configura para crear nuevo usuario
+           - Cambia el título del modal
+           - Establece campos por defecto
+        *@
         function openCreateModal() {
             isEditMode = false;
             document.getElementById('modalTitle').textContent = 'Agregar Usuario';
-            document.getElementById('userForm').reset();
-            document.getElementById('isActive').checked = true;
-            document.getElementById('password').required = true;
+            document.getElementById('userForm').reset(); // Limpia todos los campos
+            document.getElementById('isActive').checked = true; // Usuario activo por defecto
+            document.getElementById('password').required = true; // Contraseña obligatoria para nuevos usuarios
         }
 
+        @* 
+           FUNCIÓN PARA ABRIR MODAL EN MODO EDITAR
+           - Recibe parámetros del usuario a editar
+           - Prellenea el formulario con los datos actuales
+           - Configura el modal para edición
+        *@
         function openEditModal(id, username, email, isActive) {
             isEditMode = true;
             document.getElementById('modalTitle').textContent = 'Editar Usuario';
-            document.getElementById('userId').value = id;
+            document.getElementById('userId').value = id; // Guarda el ID para la actualización
             document.getElementById('username').value = username;
             document.getElementById('email').value = email;
             document.getElementById('isActive').checked = isActive;
-            document.getElementById('password').value = '';
-            document.getElementById('password').required = false;
+            document.getElementById('password').value = ''; // Limpia contraseña
+            document.getElementById('password').required = false; // Contraseña opcional en edición
 
+            // Abre el modal programáticamente
             var modal = new bootstrap.Modal(document.getElementById('userModal'));
             modal.show();
         }
 
+        @* 
+           FUNCIÓN ASÍNCRONA PARA GUARDAR USUARIO
+           - Maneja tanto creación como edición
+           - Valida campos requeridos
+           - Envía petición AJAX al servidor
+        *@
         async function saveUser() {
+            // Obtiene valores del formulario
             const id = document.getElementById('userId').value;
             const username = document.getElementById('username').value;
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             const isActive = document.getElementById('isActive').checked;
 
+            // Validación de campos requeridos
             if (!username || !email || (!isEditMode && !password)) {
                 alert('Por favor complete todos los campos requeridos');
                 return;
             }
 
+            // Prepara objeto de datos para enviar
             const userData = {
                 id: parseInt(id),
                 username: username,
@@ -164,42 +369,54 @@
             };
 
             try {
+                // Configura URL y método según el modo
                 const url = isEditMode ? '/Users/Update' : '/Users/Create';
                 const method = isEditMode ? 'PUT' : 'POST';
 
+                // Envía petición AJAX
                 const response = await fetch(url, {
                     method: method,
                     headers: {
-                        'Content-Type': 'application/json',
+                        'Content-Type': 'application/json', // Especifica que envía JSON
                     },
-                    body: JSON.stringify(userData)
+                    body: JSON.stringify(userData) // Convierte objeto a JSON
                 });
 
-                const result = await response.json();
+                const result = await response.json(); // Parsea respuesta JSON
 
+                // Maneja la respuesta del servidor
                 if (result.success) {
                     alert(isEditMode ? 'Usuario actualizado correctamente' : 'Usuario creado correctamente');
-                    location.reload();
+                    location.reload(); // Recarga la página para mostrar cambios
                 } else {
                     alert('Error al guardar el usuario');
                 }
             } catch (error) {
+                // Maneja errores de red o conexión
                 alert('Error de conexión');
             }
         }
 
+        @* 
+           FUNCIÓN ASÍNCRONA PARA ELIMINAR USUARIO
+           - Solicita confirmación antes de eliminar
+           - Envía petición DELETE al servidor
+        *@
         async function deleteUser(id) {
+            // Confirmación de eliminación
             if (confirm('¿Está seguro de que desea eliminar este usuario?')) {
                 try {
+                    // Envía petición DELETE
                     const response = await fetch(`/Users/Delete?id=${id}`, {
                         method: 'DELETE'
                     });
 
                     const result = await response.json();
 
+                    // Maneja la respuesta
                     if (result.success) {
                         alert('Usuario eliminado correctamente');
-                        location.reload();
+                        location.reload(); // Recarga para actualizar la tabla
                     } else {
                         alert('Error al eliminar el usuario');
                     }
@@ -211,3 +428,50 @@
     </script>
 </body>
 </html>
+
+@* 
+   ANÁLISIS TÉCNICO DEL SISTEMA CRUD:
+   
+   1. ARQUITECTURA DE VISTA:
+      - Modelo fuertemente tipado List<UserModel>
+      - Separación clara entre presentación y lógica
+      - Uso de Razor para renderizado dinámico
+   
+   2. COMPONENTES PRINCIPALES:
+      - Tabla responsive para mostrar usuarios
+      - Modal reutilizable para crear/editar
+      - Navegación consistente con la aplicación
+   
+   3. FUNCIONALIDAD CRUD COMPLETA:
+      - CREATE: Modal + AJAX POST a /Users/Create
+      - READ: Tabla generada desde el modelo
+      - UPDATE: Modal prellenado + AJAX PUT a /Users/Update
+      - DELETE: Confirmación + AJAX DELETE a /Users/Delete
+   
+   4. EXPERIENCIA DE USUARIO:
+      - Interfaz responsive con Bootstrap
+      - Modales para evitar navegación entre páginas
+      - Validaciones en el cliente y servidor
+      - Confirmaciones para acciones destructivas
+   
+   5. COMUNICACIÓN CLIENTE-SERVIDOR:
+      - AJAX con fetch API para operaciones asíncronas
+      - JSON para intercambio de datos
+      - Manejo de errores y respuestas del servidor
+   
+   6. CARACTERÍSTICAS DE SEGURIDAD:
+      - Validaciones en cliente y servidor
+      - Confirmaciones para eliminaciones
+      - Manejo apropiado de contraseñas
+   
+   7. RESPONSIVE DESIGN:
+      - Tabla responsive para dispositivos móviles
+      - Modal adaptable a diferentes pantallas
+      - Navegación que colapsa en pantallas pequeñas
+   
+   FLUJO DE OPERACIONES:
+   1. LISTAR: Servidor envía List<UserModel> → Vista renderiza tabla
+   2. CREAR: Click botón → Modal vacío → Llenar datos → AJAX POST → Recarga
+   3. EDITAR: Click editar → Modal con datos → Modificar → AJAX PUT → Recarga
+   4. ELIMINAR: Click eliminar → Confirmación → AJAX DELETE → Recarga
+*@

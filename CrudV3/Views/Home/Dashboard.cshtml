@@ -1,30 +1,177 @@
-﻿<!DOCTYPE html>
+﻿@* 
+   DECLARACIÓN DOCTYPE Y HTML
+   - <!DOCTYPE html>: Declara que es un documento HTML5
+   - Debe ser la primera línea del documento
+   - Activa el modo estándar del navegador (no quirks mode)
+*@
+<!DOCTYPE html>
 <html lang="es">
+ @* 
+                   ELEMENTO HTML RAÍZ
+                   - lang="es": Especifica que el idioma principal del documento es español
+                   - Importante para SEO y accesibilidad (lectores de pantalla)
+                   - Ayuda a los navegadores con corrección ortográfica y traducción
+                *@
 <head>
+    @* 
+       SECCIÓN HEAD
+       - Contiene metadatos del documento que no son visibles al usuario
+       - Incluye información para el navegador, motores de búsqueda y otros servicios
+    *@
+
+    @* 
+       CODIFICACIÓN DE CARACTERES
+       - UTF-8: Codificación universal que soporta todos los caracteres y símbolos
+       - Debe ser uno de los primeros elementos en el head
+       - Previene problemas de caracteres especiales (ñ, tildes, etc.)
+    *@
     <meta charset="utf-8" />
+
+    @* 
+       VIEWPORT META TAG
+       - Controla cómo se muestra la página en dispositivos móviles
+       - width=device-width: El ancho de la página coincide con el ancho del dispositivo
+       - initial-scale=1.0: Establece el zoom inicial al 100%
+       - Esencial para diseño responsive
+    *@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    @* 
+       TÍTULO DE LA PÁGINA
+       - Aparece en la pestaña del navegador
+       - Usado por motores de búsqueda como título del resultado
+       - Importante para SEO y experiencia de usuario
+    *@
     <title>Dashboard - CrudV3</title>
+
+    @* 
+       INCLUSIÓN DE BOOTSTRAP CSS
+       - Bootstrap 5.3.0 desde CDN (Content Delivery Network)
+       - CDN ofrece ventajas: velocidad, cache, disponibilidad
+       - Proporciona framework CSS con componentes prediseñados
+       - Incluye sistema de grid, componentes UI, y utilidades
+    *@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
+
+@* 
+   CUERPO DEL DOCUMENTO
+   - Contiene todo el contenido visible de la página
+   - No tiene clases adicionales (a diferencia del login que tenía bg-light)
+*@
 <body>
+    @* 
+       BARRA DE NAVEGACIÓN
+       - navbar: Clase base de Bootstrap para barras de navegación
+       - navbar-expand-lg: Se expande en pantallas grandes (≥992px), colapsa en menores
+       - navbar-dark: Tema oscuro para texto blanco sobre fondo oscuro
+       - bg-primary: Fondo azul primario de Bootstrap
+    *@
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        @* 
+           CONTENEDOR DE LA NAVEGACIÓN
+           - container: Contenedor responsive que centra y limita el ancho
+           - Mantiene consistencia con el resto del layout
+        *@
         <div class="container">
+            @* 
+               MARCA/LOGO DE LA APLICACIÓN
+               - navbar-brand: Clase de Bootstrap para el logo o nombre de la aplicación
+               - href="#": Enlace placeholder (normalmente iría a la página principal)
+               - Usualmente se coloca en la parte izquierda de la navbar
+            *@
             <a class="navbar-brand" href="#">CrudV3</a>
+
+            @* 
+               NAVEGACIÓN DERECHA
+               - navbar-nav: Contenedor para elementos de navegación
+               - ms-auto: Margen izquierdo automático (empuja el contenido a la derecha)
+               - En Bootstrap 5, 'ms' significa 'margin-start' (izquierdo en LTR)
+            *@
             <div class="navbar-nav ms-auto">
+                @* 
+                   MENSAJE DE BIENVENIDA
+                   - navbar-text: Clase para texto plano en la navbar
+                   - me-3: Margen derecho mediano para separación
+                   - @ViewBag.Username: Datos dinámicos del controlador
+                   - ViewBag permite pasar datos del controlador a la vista
+                *@
                 <span class="navbar-text me-3">Bienvenido, @ViewBag.Username</span>
+
+                @* 
+                   ENLACE DE CERRAR SESIÓN
+                   - nav-link: Clase de Bootstrap para enlaces de navegación
+                   - @Url.Action("Logout", "Home"): Helper de Razor que genera URL
+                   - Apunta a la acción "Logout" del controlador "Home"
+                   - Genera URL relativa correcta automáticamente
+                *@
                 <a class="nav-link" href="@Url.Action("Logout", "Home")">Cerrar Sesión</a>
             </div>
         </div>
     </nav>
 
+    @* 
+       CONTENEDOR PRINCIPAL DEL CONTENIDO
+       - container: Contenedor responsive de Bootstrap
+       - mt-4: Margen superior grande para separar de la navbar
+       - Centraliza el contenido y aplica márgenes laterales
+    *@
     <div class="container mt-4">
+        @* 
+           SISTEMA DE GRID
+           - row: Fila del sistema de grid de Bootstrap
+           - Necesario para usar las columnas correctamente
+        *@
         <div class="row">
+            @* 
+               COLUMNA COMPLETA
+               - col-12: Ocupa las 12 columnas disponibles (100% del ancho)
+               - En este caso, todo el contenido ocupa el ancho completo
+            *@
             <div class="col-12">
+                @* 
+                   TÍTULO PRINCIPAL DEL DASHBOARD
+                   - h2: Encabezado de nivel 2 (segundo más importante)
+                   - Indica la sección principal de la página
+                *@
                 <h2>Panel de Administración</h2>
+
+                @* 
+                   TARJETA DE CONTENIDO
+                   - card: Componente de Bootstrap para contenido agrupado
+                   - Crea un contenedor con borde, padding y sombra sutil
+                   - Permite organizar información de manera visual
+                *@
                 <div class="card">
+                    @* 
+                       CUERPO DE LA TARJETA
+                       - card-body: Aplica padding interno estándar
+                       - Proporciona espaciado consistente dentro de la tarjeta
+                    *@
                     <div class="card-body">
+                        @* 
+                           TÍTULO DE LA TARJETA
+                           - card-title: Clase específica para títulos de tarjetas
+                           - h5: Encabezado de nivel 5 (tamaño apropiado para subtítulos)
+                           - Bootstrap aplica estilos específicos a card-title
+                        *@
                         <h5 class="card-title">Gestión de Usuarios</h5>
+
+                        @* 
+                           TEXTO DESCRIPTIVO
+                           - card-text: Clase para texto del cuerpo de la tarjeta
+                           - Proporciona espaciado y estilo consistente
+                           - Describe la funcionalidad disponible
+                        *@
                         <p class="card-text">Administra los usuarios del sistema.</p>
+
+                        @* 
+                           BOTÓN DE ACCIÓN
+                           - btn btn-primary: Botón azul de Bootstrap
+                           - @Url.Action("Index", "Users"): Genera URL para el controlador Users
+                           - Apunta a la acción "Index" que típicamente lista los usuarios
+                           - Navegación hacia la funcionalidad principal
+                        *@
                         <a href="@Url.Action("Index", "Users")" class="btn btn-primary">Ir a Usuarios</a>
                     </div>
                 </div>
@@ -32,6 +179,61 @@
         </div>
     </div>
 
+    @* 
+       BOOTSTRAP JAVASCRIPT
+       - Incluye el JavaScript de Bootstrap desde CDN
+       - bootstrap.bundle.min.js: Incluye Bootstrap JS + Popper.js
+       - Popper.js: Biblioteca para posicionamiento de elementos flotantes
+       - Necesario para componentes interactivos: navbar collapse, dropdowns, modales, etc.
+       - Se coloca al final del body para mejor rendimiento
+    *@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
+@* 
+   ANÁLISIS ARQUITECTURAL DEL DASHBOARD:
+   
+   1. ESTRUCTURA JERÁRQUICA:
+      - HTML5 semántico con declaraciones apropiadas
+      - Organización clara: head (metadata) → body (contenido visible)
+      - Navegación → contenido principal → scripts
+   
+   2. COMPONENTES PRINCIPALES:
+      - Navbar: Navegación global con marca, usuario y logout
+      - Container: Área de contenido principal
+      - Card: Componente para agrupar funcionalidades
+   
+   3. PATRÓN MVC:
+      - ViewBag.Username: Datos del controlador
+      - @Url.Action(): Generación de URLs dinámicas
+      - Separación clara entre lógica (controlador) y presentación (vista)
+   
+   4. RESPONSIVE DESIGN:
+      - Sistema de grid de Bootstrap
+      - Navbar que colapsa en pantallas pequeñas
+      - Contenedores que se adaptan al viewport
+   
+   5. EXPERIENCIA DE USUARIO:
+      - Navegación intuitiva con marca y opciones de usuario
+      - Mensaje de bienvenida personalizado
+      - Tarjetas organizadas para diferentes funcionalidades
+      - Botones de acción claros
+   
+   6. SEGURIDAD Y SESIONES:
+      - Muestra el nombre del usuario autenticado
+      - Opción de cerrar sesión accesible
+      - Implica sistema de autenticación y autorización
+   
+   7. ESCALABILIDAD:
+      - Estructura preparada para agregar más tarjetas/funcionalidades
+      - Sistema de grid permite reorganización fácil
+      - Patrón consistente para nuevas secciones
+   
+   FLUJO DE NAVEGACIÓN:
+   1. Usuario autenticado accede al dashboard
+   2. Ve mensaje de bienvenida personalizado
+   3. Puede navegar a gestión de usuarios
+   4. Puede cerrar sesión desde cualquier momento
+   5. Navbar permanece visible para navegación constante
+*@
