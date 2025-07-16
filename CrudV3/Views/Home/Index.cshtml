@@ -1,21 +1,27 @@
 ﻿@model CrudV3.Models.LoginViewModel
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="utf-8" />
+    <!-- Hace que la página se vea bien en celulares y tablets -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login - CrudV3</title>
+    <!-- Incluye Bootstrap para hacer la página bonita -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="bg-light">
     <div class="container">
+        <!-- Centra el formulario en la pantalla -->
         <div class="row justify-content-center">
+            <!-- El formulario ocupa diferentes tamaños según el dispositivo -->
             <div class="col-md-6 col-lg-4">
+                <!-- Caja con sombra que contiene el formulario -->
                 <div class="card shadow-sm mt-5">
                     <div class="card-body">
+                        <!-- Título centrado -->
                         <h3 class="text-center mb-4">Iniciar Sesión</h3>
 
+                        <!-- Si hay un error, lo muestra en rojo -->
                         @if (!string.IsNullOrEmpty(Model.ErrorMessage))
                         {
                             <div class="alert alert-danger" role="alert">
@@ -23,33 +29,39 @@
                             </div>
                         }
 
+                        <!-- Formulario que envía datos al servidor -->
                         <form asp-action="Login" method="post">
+                            <!-- Protección contra ataques maliciosos -->
                             @Html.AntiForgeryToken()
 
+                            <!-- Campo para escribir el nombre de usuario -->
                             <div class="mb-3">
                                 <label asp-for="Username" class="form-label">Usuario</label>
                                 <input asp-for="Username" class="form-control" placeholder="Ingresa tu usuario" />
+                                <!-- Muestra errores si el usuario no llena bien este campo -->
                                 <span asp-validation-for="Username" class="text-danger"></span>
                             </div>
 
+                            <!-- Campo para escribir la contraseña -->
                             <div class="mb-3">
                                 <label asp-for="Password" class="form-label">Contraseña</label>
+                                <!-- type="password" hace que se vean asteriscos en lugar de las letras -->
                                 <input asp-for="Password" type="password" class="form-control" placeholder="Ingresa tu contraseña" />
+                                <!-- Muestra errores si la contraseña no es válida -->
                                 <span asp-validation-for="Password" class="text-danger"></span>
                             </div>
 
+                            <!-- Botón para enviar el formulario -->
                             <div class="d-grid">
                                 <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
                             </div>
                         </form>
-
-
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
+    <!-- JavaScript de Bootstrap para que funcionen las animaciones -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
