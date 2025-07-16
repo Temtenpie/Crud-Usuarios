@@ -4,14 +4,19 @@
 <html lang="es">
 <head>
     <meta charset="utf-8" />
+    <!-- Hace que la página se vea bien en celulares y tablets -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Usuarios - CrudV3</title>
+    <!-- Incluye Bootstrap para hacer la página bonita -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+    <!-- Barra de navegación azul en la parte superior -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container">
+            <!-- Nombre de la aplicación que lleva de vuelta al dashboard -->
             <a class="navbar-brand" href="@Url.Action("Dashboard", "Home")">CrudV3</a>
+            <!-- Enlaces del menú que van a la derecha -->
             <div class="navbar-nav ms-auto">
                 <a class="nav-link" href="@Url.Action("Dashboard", "Home")">Dashboard</a>
                 <a class="nav-link" href="@Url.Action("Logout", "Home")">Cerrar Sesión</a>
@@ -19,17 +24,22 @@
         </div>
     </nav>
 
+    <!-- Contenido principal de la página -->
     <div class="container mt-4">
         <div class="row">
             <div class="col-12">
+                <!-- Fila que contiene el título y el botón para agregar usuario -->
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h2>Gestión de Usuarios</h2>
+                    <!-- Botón verde que abre la ventana para crear un nuevo usuario -->
                     <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#userModal" onclick="openCreateModal()">
                         Agregar Usuario
                     </button>
                 </div>
 
+                <!-- Tabla que se adapta a pantallas pequeñas -->
                 <div class="table-responsive">
+                    <!-- Tabla con rayas para mostrar la lista de usuarios -->
                     <table class="table table-striped">
                         <thead>
                             <tr>
@@ -41,7 +51,9 @@
                                 <th>Acciones</th>
                             </tr>
                         </thead>
+                        <!-- Cuerpo de la tabla donde se muestran los usuarios -->
                         <tbody id="usersTableBody">
+                            <!-- Ciclo que recorre cada usuario y crea una fila -->
                             @foreach (var user in Model)
                             {
                                 <tr>
@@ -49,15 +61,19 @@
                                     <td>@user.Username</td>
                                     <td>@user.Email</td>
                                     <td>
+                                        <!-- Etiqueta colorida que muestra si el usuario está activo -->
                                         <span class="badge bg-@(user.IsActive ? "success" : "danger")">
                                             @(user.IsActive ? "Activo" : "Inactivo")
                                         </span>
                                     </td>
+                                    <!-- Fecha formateada para mostrar solo día/mes/año -->
                                     <td>@user.CreatedAt.ToString("dd/MM/yyyy")</td>
                                     <td>
+                                        <!-- Botón azul para editar el usuario -->
                                         <button class="btn btn-sm btn-primary" onclick="openEditModal(@user.Id, '@user.Username', '@user.Email', @user.IsActive.ToString().ToLower())">
                                             Editar
                                         </button>
+                                        <!-- Botón rojo para eliminar el usuario -->
                                         <button class="btn btn-sm btn-danger" onclick="deleteUser(@user.Id)">
                                             Eliminar
                                         </button>
@@ -71,34 +87,42 @@
         </div>
     </div>
 
-    <!-- Modal para Crear/Editar Usuario -->
+    <!-- Ventana emergente (modal) para crear o editar usuarios -->
     <div class="modal fade" id="userModal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
+                <!-- Cabecera de la ventana con título y botón de cerrar -->
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalTitle">Agregar Usuario</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
+                <!-- Cuerpo de la ventana con el formulario -->
                 <div class="modal-body">
                     <form id="userForm">
+                        <!-- Campo oculto para guardar el ID del usuario cuando se edita -->
                         <input type="hidden" id="userId" value="0">
 
+                        <!-- Campo para escribir el nombre de usuario -->
                         <div class="mb-3">
                             <label for="username" class="form-label">Usuario</label>
                             <input type="text" class="form-control" id="username" required>
                         </div>
 
+                        <!-- Campo para escribir el email -->
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
                             <input type="email" class="form-control" id="email" required>
                         </div>
 
+                        <!-- Campo para escribir la contraseña -->
                         <div class="mb-3">
                             <label for="password" class="form-label">Contraseña</label>
                             <input type="password" class="form-control" id="password">
+                            <!-- Texto de ayuda que explica cuándo llenar la contraseña -->
                             <div class="form-text">Deja vacío para mantener la contraseña actual (solo edición)</div>
                         </div>
 
+                        <!-- Casilla para marcar si el usuario está activo -->
                         <div class="mb-3">
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="isActive" checked>
@@ -109,6 +133,7 @@
                         </div>
                     </form>
                 </div>
+                <!-- Pie de la ventana con botones de acción -->
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                     <button type="button" class="btn btn-primary" onclick="saveUser()">Guardar</button>
@@ -117,18 +142,22 @@
         </div>
     </div>
 
+    <!-- JavaScript de Bootstrap para que funcionen las animaciones -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+        // Variable que indica si estamos editando o creando un usuario
         let isEditMode = false;
 
+        // Función que prepara la ventana para crear un nuevo usuario
         function openCreateModal() {
             isEditMode = false;
             document.getElementById('modalTitle').textContent = 'Agregar Usuario';
-            document.getElementById('userForm').reset();
-            document.getElementById('isActive').checked = true;
-            document.getElementById('password').required = true;
+            document.getElementById('userForm').reset(); // Limpia el formulario
+            document.getElementById('isActive').checked = true; // Usuario activo por defecto
+            document.getElementById('password').required = true; // Contraseña obligatoria
         }
 
+        // Función que prepara la ventana para editar un usuario existente
         function openEditModal(id, username, email, isActive) {
             isEditMode = true;
             document.getElementById('modalTitle').textContent = 'Editar Usuario';
@@ -137,24 +166,29 @@
             document.getElementById('email').value = email;
             document.getElementById('isActive').checked = isActive;
             document.getElementById('password').value = '';
-            document.getElementById('password').required = false;
+            document.getElementById('password').required = false; // Contraseña opcional al editar
 
+            // Abre la ventana emergente
             var modal = new bootstrap.Modal(document.getElementById('userModal'));
             modal.show();
         }
 
+        // Función que guarda el usuario (crear o editar)
         async function saveUser() {
+            // Obtiene los valores del formulario
             const id = document.getElementById('userId').value;
             const username = document.getElementById('username').value;
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             const isActive = document.getElementById('isActive').checked;
 
+            // Verifica que los campos requeridos estén llenos
             if (!username || !email || (!isEditMode && !password)) {
                 alert('Por favor complete todos los campos requeridos');
                 return;
             }
 
+            // Prepara los datos para enviar al servidor
             const userData = {
                 id: parseInt(id),
                 username: username,
@@ -164,9 +198,11 @@
             };
 
             try {
+                // Decide qué dirección y método usar según si es crear o editar
                 const url = isEditMode ? '/Users/Update' : '/Users/Create';
                 const method = isEditMode ? 'PUT' : 'POST';
 
+                // Envía los datos al servidor
                 const response = await fetch(url, {
                     method: method,
                     headers: {
@@ -175,11 +211,13 @@
                     body: JSON.stringify(userData)
                 });
 
+                // Obtiene la respuesta del servidor
                 const result = await response.json();
 
+                // Muestra mensaje de éxito o error
                 if (result.success) {
                     alert(isEditMode ? 'Usuario actualizado correctamente' : 'Usuario creado correctamente');
-                    location.reload();
+                    location.reload(); // Recarga la página para mostrar los cambios
                 } else {
                     alert('Error al guardar el usuario');
                 }
@@ -188,18 +226,23 @@
             }
         }
 
+        // Función que elimina un usuario
         async function deleteUser(id) {
+            // Pregunta al usuario si está seguro de eliminar
             if (confirm('¿Está seguro de que desea eliminar este usuario?')) {
                 try {
+                    // Envía petición para eliminar el usuario
                     const response = await fetch(`/Users/Delete?id=${id}`, {
                         method: 'DELETE'
                     });
 
+                    // Obtiene la respuesta del servidor
                     const result = await response.json();
 
+                    // Muestra mensaje de éxito o error
                     if (result.success) {
                         alert('Usuario eliminado correctamente');
-                        location.reload();
+                        location.reload(); // Recarga la página para mostrar los cambios
                     } else {
                         alert('Error al eliminar el usuario');
                     }
