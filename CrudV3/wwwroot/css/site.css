@@ -28,12 +28,27 @@
     box-sizing: border-box;
 }
 
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
 body {
     font-family: var(--font-primary);
     background: linear-gradient(135deg, var(--warm-stone) 0%, var(--light-mint) 100%);
     color: var(--text-charcoal);
     line-height: 1.6;
+    display: flex;
+    flex-direction: column;
     min-height: 100vh;
+}
+
+/* ===== CONTENEDOR PRINCIPAL ===== */
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 /* ===== NAVEGACIÓN ===== */
@@ -94,7 +109,7 @@ body {
             left: 100%;
         }
 
-/* ===== CONTENEDOR PRINCIPAL ===== */
+/* ===== CONTENEDOR DE CONTENIDO ===== */
 .container {
     max-width: 1200px;
 }
@@ -220,6 +235,119 @@ h2 {
         transform: translateY(0);
     }
 
+/* ===== FOOTER ===== */
+.footer {
+    background: linear-gradient(135deg, var(--primary-forest) 0%, var(--secondary-sage) 100%);
+    color: white;
+    padding: 2rem 0;
+    margin-top: auto;
+    box-shadow: 0 -2px 8px rgba(45, 90, 71, 0.1);
+    border-top: 2px solid var(--accent-moss);
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.footer-logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+}
+
+    .footer-logo::before {
+        content: '🌿';
+        margin-right: 0.5rem;
+        font-size: 1.3rem;
+    }
+
+.footer-links {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.footer-link {
+    color: var(--light-mint);
+    text-decoration: none;
+    transition: var(--transition-fast);
+    padding: 0.5rem 0;
+}
+
+    .footer-link:hover {
+        color: white;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    }
+
+.footer-info {
+    text-align: center;
+    color: var(--light-mint);
+    font-size: 0.9rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* ===== PÁGINA DE LOGIN ===== */
+.login-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 0;
+}
+
+.login-container {
+    width: 100%;
+    max-width: 400px;
+}
+
+.login-card {
+    background: white;
+    border: none;
+    border-radius: 16px;
+    box-shadow: var(--shadow-strong);
+    overflow: hidden;
+    position: relative;
+}
+
+    .login-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, var(--primary-forest), var(--accent-moss), var(--secondary-sage));
+    }
+
+.login-card-body {
+    padding: 2.5rem;
+    background: linear-gradient(135deg, white 0%, var(--light-mint) 100%);
+}
+
+.login-title {
+    color: var(--primary-forest);
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+    .login-title::before {
+        content: '🌿';
+        display: block;
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+    }
+
 /* ===== EFECTOS ADICIONALES ===== */
 @keyframes fadeInUp {
     from {
@@ -233,7 +361,7 @@ h2 {
     }
 }
 
-.card {
+.card, .login-card {
     animation: fadeInUp 0.6s ease-out;
 }
 
@@ -247,6 +375,10 @@ h2 {
         padding: 1.5rem;
     }
 
+    .login-card-body {
+        padding: 2rem;
+    }
+
     h2 {
         font-size: 1.5rem;
     }
@@ -254,6 +386,15 @@ h2 {
     .btn {
         padding: 0.625rem 1.25rem;
         font-size: 0.875rem;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .footer-links {
+        justify-content: center;
     }
 }
 
@@ -266,9 +407,18 @@ h2 {
         padding: 1rem;
     }
 
+    .login-card-body {
+        padding: 1.5rem;
+    }
+
     h2::after {
         width: 40px;
         height: 2px;
+    }
+
+    .footer-links {
+        flex-direction: column;
+        gap: 1rem;
     }
 }
 
@@ -304,7 +454,8 @@ body::before {
 
 /* ===== MEJORAS DE ACCESIBILIDAD ===== */
 .btn:focus,
-.nav-link:focus {
+.nav-link:focus,
+.footer-link:focus {
     outline: 2px solid var(--accent-moss);
     outline-offset: 2px;
 }
